@@ -10,7 +10,7 @@ exports.getAll = async (req, res, next) => {
     }
 };
 
-exports.createNewCategory = async (req, res, next) => {
+exports.createNewCategory = async (req, res, next) => { // TODO maybe should return the id
     const name = req.body.name;
     if (!name) {
         res.status(400).json({ message: "Supply the category \"name\" parameter!" });
@@ -21,6 +21,10 @@ exports.createNewCategory = async (req, res, next) => {
         return;
     }
     try {
+        if ((await Category.findByName(name))[0].length) {
+            res.status(400).json({ message: "Category name already exists!" });
+            return;
+        }
         let newCategory = new Category(name);
         newCategory = await newCategory.save();
         res.status(201).json({ message: "Post created" });

@@ -11,8 +11,13 @@ class Category {
     }
 
     static findAll() {
-        let sql = "SELECT name FROM categories;";
+        let sql = "SELECT * FROM categories;";
         return db.execute(sql);
+    }
+
+    static findByName(name) {
+        let sql = "SELECT name FROM categories WHERE name = ?;";
+        return db.execute(sql, [name]);
     }
 }
 
