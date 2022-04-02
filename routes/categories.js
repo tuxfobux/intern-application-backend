@@ -1,12 +1,9 @@
-const express = require('express');
-const router = express.Router();
+module.exports = app => {
+    const categories = require("../controllers/categories.js");
+    const router = require("express").Router();
 
-/*
-  @desc    List all categories
-  @route   GET /
-*/
-router.get('/', (req, res) => {
-    res.json("test");
-})
+    // List all categories
+    router.get('/', categories.getAll);
 
-module.exports = router;
+    app.use('/categories', router);
+}
