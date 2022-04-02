@@ -11,6 +11,15 @@ app.use(express.json());
 // Routes
 require('./routes/categories')(app);
 
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.log(err.stack);
+    console.log(err.name);
+    console.log(err.code);
+    res.status(500).json({
+        message: "Something went horribly wrong",
+    });
+});
 
 const port = process.env.EXPRESS_PORT || 3000;
 
