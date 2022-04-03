@@ -40,7 +40,7 @@ exports.updateProduct = async (req, res, next) => { // TODO error handling
             res.status(400).json({ message: "Product with such id doesn't exist!" });
             return;
         }
-        await Category.updateById(newContent, categoryId, productId);
+        await Product.updateById(newContent, categoryId, productId);
         res.status(200).json({ message: "Product updated" });
     } catch (error) {
         next(error);

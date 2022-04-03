@@ -11,7 +11,7 @@ class Category {
     }
 
     static findAll() {
-        let sql = "SELECT * FROM categories;";
+        let sql = "SELECT * FROM categories ORDER BY id;";
         return db.execute(sql);
     }
 
