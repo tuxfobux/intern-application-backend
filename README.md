@@ -1,5 +1,5 @@
 # Internship application for backend position
-Primary tech used: NodeJS, Express, MySQL, Jest.
+Primary tech used: NodeJS, Express, MySQL, Jest, Joi.
 
 # Setup
 * Clone the repository.
@@ -13,7 +13,7 @@ mysql -u <USER> -p < create_tables.sql
 * Run `npm install` to install all the dependencies
 * Tests can be run with `npm test` and application can be started with `npm start`
 
-# Api routes
+# API routes
 * Getting the list of products of the concrete category;
 * `GET /categories`
 * `GET /categories/{id}/products`
