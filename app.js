@@ -23,6 +23,9 @@ app.use((err, req, res, next) => {
 
 const port = process.env.EXPRESS_PORT || 3000;
 
-let server = app.listen(port, () => console.log(`Server is listening on port ${port}`));
+// Used when testing
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(port, () => console.log(`Server is listening on port ${port}`));
+}
 
-module.exports = server;
+module.exports = app;
