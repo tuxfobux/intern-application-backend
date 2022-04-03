@@ -1,5 +1,4 @@
 const Category = require("../models/Category");
-const Product = require("../models/Product");
 
 exports.getAll = async (req, res, next) => {
     try {
@@ -22,7 +21,7 @@ exports.createNewCategory = async (req, res, next) => { // TODO maybe should ret
     }
     try {
         if ((await Category.findByName(name))[0].length) {
-            res.status(400).json({ message: "Category name already exists!" });
+            res.status(400).json({ message: "Category already exists!" });
             return;
         }
         let newCategory = new Category(name);

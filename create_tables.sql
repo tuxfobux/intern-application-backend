@@ -5,9 +5,9 @@ CREATE TABLE categories (
  UNIQUE (name)
 );
 
-CREATE TABLE posts ( 
+CREATE TABLE products ( 
  id INT NOT NULL AUTO_INCREMENT, 
  content VARCHAR(140), 
- category INT NOT NULL,
+ category_id INT NOT NULL,
  PRIMARY KEY (id)
 );
