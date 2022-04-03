@@ -1,6 +1,6 @@
 const Category = require("../models/Category");
 
-exports.getAll = async (req, res, next) => {
+exports.getAllCategories = async (req, res, next) => {
     try {
         const [categories, _] = await Category.findAll();
         res.status(200).json({ categories });
@@ -9,16 +9,8 @@ exports.getAll = async (req, res, next) => {
     }
 };
 
-exports.createNewCategory = async (req, res, next) => { // TODO maybe should return the id
+exports.createNewCategory = async (req, res, next) => {
     const name = req.body.name;
-    if (!name) {
-        res.status(400).json({ message: "Supply the category \"name\" parameter!" });
-        return;
-    }
-    if (name.length > 15 || name.length == 0) {
-        res.status(400).json({ message: "Category name must be between 1 and 16 characters!" });
-        return;
-    }
     try {
         if ((await Category.findByName(name))[0].length) {
             res.status(400).json({ message: "Category already exists!" });
@@ -34,14 +26,14 @@ exports.createNewCategory = async (req, res, next) => { // TODO maybe should ret
 
 exports.updateCategory = async (req, res, next) => {
     const id = Number(req.params.id);
-    const newName = req.body.name; // name checks similar to createNewCategory also if the name previously exists, prolly create functions for that
-    if (!id) {
-        res.status(400).json({ message: "Supply the category \"id\" parameter!" });
-        return;
-    }
+    const newName = req.body.name;
     try {
         if (!(await Category.findById(id))[0].length) {
             res.status(400).json({ message: "Category with such id doesn't exist!" });
+            return;
+        }
+        if ((await Category.findByName(newName))[0].length) {
+            res.status(400).json({ message: "Category with such name already exists!" });
             return;
         }
         await Category.updateById(newName, id);
@@ -53,10 +45,6 @@ exports.updateCategory = async (req, res, next) => {
 
 exports.deleteCategory = async (req, res, next) => {
     const id = Number(req.params.id);
-    if (!id) {
-        res.status(400).json({ message: "Supply the category \"id\" parameter!" });
-        return;
-    }
     try {
         if (!(await Category.findById(id))[0].length) {
             res.status(400).json({ message: "Category with such id doesn't exist!" });

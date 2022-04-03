@@ -1,7 +1,7 @@
 const Category = require("../models/Category");
 const Product = require("../models/Product");
 
-exports.getProductsOfCategory = async (req, res, next) => { // TODO error handling
+exports.getProductsOfCategory = async (req, res, next) => {
     const id = Number(req.params.id);
     try {
         const [products, _] = await Product.findAllProductsByCategoryId(id);
@@ -11,7 +11,7 @@ exports.getProductsOfCategory = async (req, res, next) => { // TODO error handli
     }
 };
 
-exports.createNewProduct = async (req, res, next) => { // TODO maybe should return the id
+exports.createNewProduct = async (req, res, next) => {
     const content = req.body.content;
     const categoryId = Number(req.params.id);
     try {
@@ -27,17 +27,17 @@ exports.createNewProduct = async (req, res, next) => { // TODO maybe should retu
     }
 };
 
-exports.updateProduct = async (req, res, next) => { // TODO error handling
+exports.updateProduct = async (req, res, next) => {
     const categoryId = Number(req.params.id);
-    const newContent = req.body.content; // name checks similar to createNewCategory also if the name previously exists, prolly create functions for that
+    const newContent = req.body.content;
     const productId = req.body.id;
-    if (!productId) {
-        res.status(400).json({ message: "Supply the product \"id\" parameter!" });
-        return;
-    }
     try {
         if (!(await Product.findById(categoryId, productId))[0].length) {
             res.status(400).json({ message: "Product with such id doesn't exist!" });
+            return;
+        }
+        if ((await Product.findByContent(newContent, categoryId))[0].length) {
+            res.status(400).json({ message: "Product with such content already exists!" });
             return;
         }
         await Product.updateById(newContent, categoryId, productId);
@@ -47,13 +47,9 @@ exports.updateProduct = async (req, res, next) => { // TODO error handling
     }
 };
 
-exports.deleteProduct = async (req, res, next) => { // TODO error handling
+exports.deleteProduct = async (req, res, next) => {
     const categoryId = Number(req.params.id);
     const productId = req.body.id;
-    if (!productId) {
-        res.status(400).json({ message: "Supply the product \"id\" parameter!" });
-        return;
-    }
     try {
         if (!(await Product.findById(categoryId, productId))[0].length) {
             res.status(400).json({ message: "Product with such id doesn't exist!" });
