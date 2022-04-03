@@ -19,6 +19,21 @@ class Category {
         let sql = "SELECT name FROM categories WHERE name = ?;";
         return db.execute(sql, [name]);
     }
+
+    static findById(id) {
+        let sql = "SELECT name FROM categories WHERE id = ?;";
+        return db.execute(sql, [id]);
+    }
+
+    static updateById(name, id) {
+        let sql = "UPDATE categories SET name = ? WHERE id = ?;"
+        return db.execute(sql, [name, id]);
+    }
+
+    static deleteById(id) {
+        let sql = "DELETE FROM categories WHERE id = ?;"
+        return db.execute(sql, [id]);
+    }
 }
 
 module.exports = Category;
